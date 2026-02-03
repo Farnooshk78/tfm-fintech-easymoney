@@ -1,5 +1,4 @@
 # tfm-fintech-easymoney
-# easyMoney – Final Data Science Project
 
 ## Objetivo
 Aumentar la rentabilidad de la base de clientes actual mediante analítica y modelos de Data Science, reduciendo la dependencia de captación intensiva de nuevos clientes.
