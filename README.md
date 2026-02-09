@@ -1,5 +1,7 @@
 # easyMoney — Capstone (End-to-End Machine Learning)
-
+<p align="center">
+  <img src="C:\Users\farno\OneDrive\Desktop\Picture1.png" alt="easyMoney logo" width="250"/>
+</p>
 ## Contexto
 Proyecto práctico del Máster en Data Science (Nuclio). Trabajamos en equipo “en la piel de Bob”, Data Scientist en easyMoney, una plataforma multicanal de productos financieros (ahorro, inversión, financiación). El reto: reorientar la estrategia para aumentar la rentabilidad de la base de clientes actual (más penetración de productos) y reducir la captación intensiva. 
 
@@ -45,12 +47,6 @@ Proyecto práctico del Máster en Data Science (Nuclio). Trabajamos en equipo �
 ## Forma de trabajo (resumen)
 - Trabajo por ramas: `feature/...` → PR → merge.
 - Notebooks: `01_...`, `02_...`, etc.
-
-## Cómo empezar
-1) Clona el repo
-2) Coloca los datos en `data/raw data/` (local, no Git)
-3) Completa documentación mínima en `docs/` (KPI, diccionario, decisiones)
-4) Inicia EDA en `notebooks/01_eda_overview.ipynb` (por crear)
 
 ### Accesos rápidos (repo)
 - Checklist Kickoff: [docs/KICKOFF_CHECKLIST.md](docs/KICKOFF_CHECKLIST.md)
