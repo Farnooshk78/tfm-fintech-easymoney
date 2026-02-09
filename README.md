@@ -1,7 +1,4 @@
 # easyMoney — Capstone (End-to-End Machine Learning)
-<p align="center">
-  <img src="C:\Users\farno\OneDrive\Desktop\Picture1.png" alt="easyMoney logo" width="250"/>
-</p>
 ## Contexto
 Proyecto práctico del Máster en Data Science (Nuclio). Trabajamos en equipo “en la piel de Bob”, Data Scientist en easyMoney, una plataforma multicanal de productos financieros (ahorro, inversión, financiación). El reto: reorientar la estrategia para aumentar la rentabilidad de la base de clientes actual (más penetración de productos) y reducir la captación intensiva. 
 
