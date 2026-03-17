@@ -29,8 +29,6 @@ Proyecto práctico del Máster en Data Science (Nuclio). Trabajamos en equipo �
 - Hay **17 particiones de histórico** (por integración del nuevo ERP). 
 - Existe un **diccionario de campos** en un `.txt` asociado al dump.
 
-> Importante: no subir datos al repositorio (ver `.gitignore`).
-
 ## Estructura del repositorio
 - `data/`
   - `raw data/` (NO se sube a Git)
