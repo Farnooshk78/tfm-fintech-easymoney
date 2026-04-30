@@ -1,8 +1,0 @@
-cluster_id,em_acount,emc_account,payroll_account,payroll,credit_card,debit_card,funds,securities,pension_plan,long_term_deposit,active_customer,total_products,salary_capped,age_capped,client_age_months,n_clientes,pct_clientes,cluster_name,accion_recomendada
-0,1.0,0.001,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.001,99047.511,25.643,27.646,161026,36.3,Básicos — solo cuenta easyMoney,Upsell — tarjeta débito y payroll_account
-1,0.073,0.225,0.945,0.937,0.124,0.645,0.0,0.0,0.989,0.013,0.998,3.952,104045.674,36.986,25.325,16924,3.8,Vinculados — nómina y pensión,"Retención — evitar fuga, ofrecer fondos"
-2,0.903,0.107,0.063,0.0,0.016,0.217,0.0,0.0,0.0,0.0,0.995,1.307,102093.867,33.064,22.746,142079,32.1,Digitales — cuenta y tarjeta débito,Cross-sell — domiciliación nómina y pensión
-3,0.662,0.37,0.052,0.013,0.026,0.085,0.0,0.0,0.021,1.0,1.0,2.23,122147.066,52.918,24.237,5443,1.2,Ahorradores — depósito a largo plazo,Fidelización — productos de ahorro complementarios
-4,0.783,0.348,0.191,0.16,0.103,0.4,0.0,1.0,0.172,0.057,0.998,3.213,121040.514,44.38,28.02,1637,0.4,Inversores — valores bursátiles,Premium — fondos de inversión y atención personalizada
-5,0.0,0.02,0.007,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.043,0.028,107655.158,31.03,22.281,114571,25.9,Inactivos — sin vinculación,Reactivación — campaña específica o cierre
-6,0.699,0.453,0.171,0.106,0.078,0.22,1.0,0.116,0.117,0.285,0.998,3.246,131960.129,48.344,30.508,1315,0.3,Premium — fondos de inversión,"Retención VIP — productos exclusivos, gestor personal"
