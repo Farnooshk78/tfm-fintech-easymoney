@@ -126,10 +126,10 @@ Selección de los 10.000 clientes con mayor potencial de rentabilidad para una c
 **Márgenes por producto:**
 | Tipo de producto | Margen |
 |-----------------|--------|
-| Tarjetas (crédito/débito) | 60 € |
+| Tarjetas | 60 € |
 | Préstamos / Hipoteca | 60 € |
-| Ahorro e inversión (fondos, planes, depósitos) | 40 € |
-| Cuentas (em_acount, payroll_account) | 10 € |
+| Ahorro e inversión | 40 € |
+| Cuentas | 10 € |
 
 **Resultado:** 9.836 clientes seleccionados con recomendación de `credit_card` (producto de mayor valor esperado).
 
@@ -231,7 +231,7 @@ jupyter notebook notebooks/01-eda.ipynb
 
 | Fichero | Descripción | Generado en |
 |---------|-------------|------------|
-| `master_df_flags.parquet` | Dataset maestro con anomalías marcadas | `01-eda.ipynb` |
+| `master_df_flags.parquet` | Dataset maestro con anomalías marcadas | `02-eda-deep-dive.ipynb` |
 | `customer_segments.csv` | Segmentación de ~441k clientes | `04-segmentación.ipynb` |
 | `recomendacion_10000_clientes.csv` | 9.836 clientes + producto recomendado (formato ESP) | `05-recomendación.ipynb` |
 | `recomendacion_10000_personalizado.csv` | 9.836 clientes + creatividad asignada | `06-personalización.ipynb` |
