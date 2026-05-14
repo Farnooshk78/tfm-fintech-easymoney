@@ -1,4 +1,4 @@
-# 🌱 easyMoney — Proyecto Final de Data Science
+# easyMoney — Proyecto Final de Data Science
 ### End-to-End Machine Learning | Nuclio Digital School
 
 ---
