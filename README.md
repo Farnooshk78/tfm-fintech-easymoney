@@ -5,9 +5,11 @@
 
 ## 📋 Descripción del proyecto
 
-Proyecto final del máster en Data Science & AI de Nuclio Digital School. El caso práctico simula el trabajo de un Data Scientist recién incorporado a **easyMoney**, una plataforma fintech de comercialización de productos financieros (ahorro, inversión, financiación) con una base de ~441.000 clientes activos.
+Proyecto final del máster en Data Science & AI de Nuclio Digital School. El caso práctico simula el trabajo de un Data Scientist recién incorporado a **easyMoney**, una plataforma fintech de comercialización de productos financieros (ahorro, inversión, financiación) con una base de ~441.752 clientes activos.
 
 El objetivo principal es **aumentar la rentabilidad de la cartera actual de clientes** mediante analítica avanzada, siguiendo la estrategia de penetración de mercado definida por la dirección (cuadrante de la Matriz de Ansoff: mercados actuales × productos actuales).
+
+**Resultado final:** 10.000 emails con 5 creatividades diferenciadas recomendando `credit_card`, con un **ROI estimado del 10.160%** (~171 contratos, €10.260 de revenue sobre €100 de coste).
 
 ---
 
@@ -80,6 +82,7 @@ Construcción de un autoservicio de Business Intelligence interactivo para el Co
 - Visualización de evolución de clientes y productos por partición mensual
 - Análisis de cross-sell por segmento comercial
 - Matriz de correlación entre productos
+- 22 CSVs exportados como fuente de datos del dashboard
 
 ---
 
@@ -87,7 +90,7 @@ Construcción de un autoservicio de Business Intelligence interactivo para el Co
 EDA completo sobre los datos de clientes para responder preguntas de negocio clave:
 - Detección y tratamiento de anomalías (`age`, `salary`, `entry_date`, `deceased`)
 - Análisis de penetración de productos (el 67% de clientes solo tiene `em_acount`)
-- Identificación del punto de inflexión en julio 2018 (entrada masiva de nuevos clientes)
+- Identificación del punto de inflexión en julio 2018: entrada masiva de ~84.000 clientes universitarios (de 251.533 a 335.669 en un mes)
 - Cross-sell rate actual: **14,3%** (objetivo: >25%)
 
 **Hallazgos clave:**
@@ -100,7 +103,7 @@ EDA completo sobre los datos de clientes para responder preguntas de negocio cla
 ---
 
 ### Tarea 2 — Segmentación de Clientes (`04-segmentación.ipynb`)
-Segmentación no supervisada de la base de ~441.000 clientes para orientar la estrategia comercial.
+Segmentación no supervisada de la base de ~441.752 clientes para orientar la estrategia comercial.
 
 **Metodología:**
 - Feature engineering en 3 pasos iterativos documentados
@@ -108,9 +111,15 @@ Segmentación no supervisada de la base de ~441.000 clientes para orientar la es
 - PCA para visualización 2D
 - Profiling de clusters para interpretación de negocio
 
+**Métricas de validación (k=7 seleccionado):**
+| Métrica | Valor |
+|---------|-------|
+| Silhouette Score | 0,2402 (máximo) |
+| Davies-Bouldin | 1,3999 (mínimo) |
+
 **Resultado:** `K = 7` clusters identificados con perfiles diferenciados por edad, salario, género y cartera de productos.
 
-**Output:** `customer_segments.csv`, `cluster_profiles.csv`
+**Output:** `customer_segments.csv` (441.752 clientes)
 
 ---
 
@@ -118,10 +127,10 @@ Segmentación no supervisada de la base de ~441.000 clientes para orientar la es
 Selección de los 10.000 clientes con mayor potencial de rentabilidad para una campaña de email marketing.
 
 **Metodología:**
-- Modelos de clasificación: Decision Tree, Random Forest, **XGBoost** (mejor AUC-ROC)
-- Evaluación con SHAP values para interpretabilidad
-- División temporal: train / validación / test / scoring
-- Valor esperado = P(contratación) × margen económico del producto
+- Modelos de clasificación: Decision Tree (baseline), Random Forest, **XGBoost** (mejor AUC-ROC en los 6 productos)
+- Split temporal estricto para evitar data leakage: train (hasta nov 2018) / validación (dic 2018–ene 2019) / test (feb–abr 2019) / scoring (may 2019)
+- Valor esperado = P̂(contratación) × Margen(producto)
+- SHAP values para interpretabilidad del modelo
 
 **Márgenes por producto:**
 | Tipo de producto | Margen |
@@ -131,30 +140,34 @@ Selección de los 10.000 clientes con mayor potencial de rentabilidad para una c
 | Ahorro e inversión | 40 € |
 | Cuentas | 10 € |
 
-**Resultado:** 9.836 clientes seleccionados con recomendación de `credit_card` (producto de mayor valor esperado).
-
-**ROI estimado de la campaña: 10.331%** (10.260 € revenue / 98 € coste)
+**Métricas del top 10.000 seleccionados:**
+| Métrica | Valor |
+|---------|-------|
+| Valor esperado medio (top 10.000) | ~€55,25 por cliente |
+| Valor esperado acumulado | €552.455 |
+| Producto recomendado (100%) | `credit_card` |
+| Distribución natural sin restricción | payroll_account 44%, em_acount 27%, funds 12%, credit_card 5% |
 
 **Output:** `recomendacion_10000_clientes.csv`
 
 ---
 
 ### Tarea 4 — Personalización (`06-personalización.ipynb`)
-Segmentación de los 9.836 clientes seleccionados en 5 perfiles para asignar creatividades diferenciadas.
+Segmentación de los 10.000 clientes seleccionados en 5 perfiles para asignar creatividades diferenciadas.
 
 **Metodología:**
-- KMeans (K=5) sobre variables sociodemográficas (edad, salario, género)
-- Selección de K justificada: Silhouette K=5 (0,471) vs K=6 (0,477) — diferencia mínima frente a la ganancia en interpretabilidad
+- KMeans (K=5) sobre variables sociodemográficas (age, salary, gender) — sin reutilizar features comportamentales de T2
+- Selección de K: Silhouette K=5 (0,47) vs K=6 (0,472) — diferencia mínima (+0,01) frente a la ganancia en interpretabilidad operativa
 
 **Perfiles y creatividades:**
 
-| Creatividad | Perfil | N clientes |
-|------------|--------|-----------|
-| Experiencia y solidez | Maduros con estabilidad financiera | 1.363 |
-| Éxito sin límites | Jóvenes profesionales en ascenso | 3.174 |
-| Inteligente y práctico | Perfil analítico, control del gasto | 1.119 |
-| Activo y conectado | Jóvenes digitales y móviles | 2.385 |
-| Premium y exclusivo | Alto poder adquisitivo | 1.795 |
+| Creatividad | Perfil | N clientes | Open Rate est. | Conv Rate est. | Revenue est. |
+|------------|--------|-----------|---------------|---------------|-------------|
+| Experiencia y solidez | Varón, 35–44a, salary 40–60k | 1.412 | 19,8% | 1,3% | ~€1.080 |
+| Éxito sin límites | Varón, 25–34a, salary 80–120k | 3.264 | 24,1% | 1,7% | ~€3.300 |
+| Inteligente y práctico | Mujer, 35–44a, salary 80–120k | 2.452 | 23,5% | 1,6% | ~€2.340 |
+| Activo y conectado | Mujer, 45–54a, salary 80–120k | 1.116 | 25,4% | 1,9% | ~€1.260 |
+| Premium y exclusivo | Varón, 45–54a, salary 80–120k | 1.756 | 26,8% | 2,2% | ~€2.280 |
 
 **Output:** `recomendacion_10000_personalizado.csv`, `muestra_1000_personalizado.csv`
 
@@ -163,42 +176,86 @@ Segmentación de los 9.836 clientes seleccionados en 5 perfiles para asignar cre
 ### Tarea 5 — Seguimiento (`07-seguimiento.ipynb`)
 Framework de KPIs en dos niveles para medir la campaña y la nueva estrategia.
 
-**KPIs de campaña (resultados ficticios ilustrativos):**
+**KPIs de campaña — Funnel completo (escenario base):**
 
-| KPI | Campaña | Benchmark sector | Δ |
-|-----|---------|-----------------|---|
-| Open Rate | 24,2% | 22,0% | ✅ +2,2% |
-| CTR | 3,2% | 2,8% | ✅ +0,4% |
-| Conv Rate | 1,7% | 1,5% | ✅ +0,2% |
-| ROI | 10.331% | >500% | ✅ |
+| Etapa | Métrica | Valor Estimado | Benchmark Sector |
+|-------|---------|---------------|-----------------|
+| Enviados | N emails | 10.000 | — |
+| Entregados | Tasa entrega | ~98% | >95% ✅ |
+| Abiertos | Open Rate | 23,9% (+1,9pp) | 22% ✅ |
+| Clicks | CTR | 3,1% (+0,3pp) | 2,8% ✅ |
+| Contratos | Conv Rate | 1,7% (+0,2pp) | 1,5% ✅ |
+| Revenue | €60 × contratos | ~€10.260 | — |
+| Coste | €0,01 × enviados | ~€100 | — |
+| ROI | (Revenue−Coste)/Coste | **10.160%** | — |
+
+**Análisis de sensibilidad del ROI:**
+
+| Escenario | Conv. Rate | Contratos | Revenue | ROI |
+|-----------|-----------|-----------|---------|-----|
+| Conservador | 1,00% | ~100 | ~€6.000 | 5.900% |
+| Esperado (base) | 1,71% | ~171 | ~€10.260 | **10.160%** |
+| Optimista | 3,00% | ~300 | ~€18.000 | 17.900% |
 
 **KPIs estratégicos (datos reales, mayo 2019):**
 
-| KPI | Valor actual | Objetivo |
-|-----|-------------|---------|
-| PPP (Productos por cliente) | 0,99 | > 1,5 |
-| Cross-sell Rate | 14,3% | > 25% |
-| Tasa de Activación en app | 38,7% | > 50% |
-| Revenue estimado / cliente | 13,7 € | > 20 € |
+| KPI | Valor actual | Objetivo | Estado |
+|-----|-------------|---------|--------|
+| PPP (Productos por cliente) | 0,99 | ≥ 1,5 | ⚠️ Por debajo |
+| Cross-sell Rate | 14,3% | > 25% | ⚠️ Por debajo |
+| Tasa de Activación en app | 38,7% | > 50% | ⚠️ Por debajo |
+| Revenue estimado / cliente | €11,1 | > €20 | ⚠️ Por debajo |
+| Retención mensual | N/D | > 98% | ✓ OK |
 
 ---
 
 ### Tarea 6 — Coordinación (`08-coordinación.ipynb`)
 Plan de proyecto y circuit de validación para Dan (Director de Marketing).
-- Protocolo de revisión y aprobación de entregables
-- Gantt chart con timeline del proyecto (junio – julio 2019)
+- Protocolo de revisión y aprobación de entregables (48h de plazo, tag [REVISAR]/[OK])
+- Gantt chart interactivo con timeline del proyecto (junio – julio 2019)
 - Resumen ejecutivo de resultados para el Comité de Dirección
+
+**Impacto de negocio — Matriz Ansoff:**
+
+| Estrategia Ansoff | Segmento objetivo | Acción | Revenue adicional potencial |
+|------------------|-------------------|--------|---------------------------|
+| Penetración (actuales × actuales) | Básicos (255k) | Activar tarjeta débito (20% conv) | ~€510.000/año |
+| Desarrollo de producto | Digitales (29k) | Bundle nómina + pensión (15% conv) | ~€264.000/año |
+| Desarrollo de mercado | Inactivos (115k) | Reactivación selectiva (10% conv) | ~€280.800/año |
+| Diversificación | Premium + Inversores (3k) | Ampliar cartera inversiones | ~€240.000/año |
+
+**Arquitectura MLOps para producción:**
+
+```
+CSV fuente mensual → Airflow (orquestación) → Great Expectations (validación)
+→ master_df_flags.parquet (S3/Azure) → Feature engineering
+→ XGBoost endpoint (FastAPI/ONNX) → Selección top 10.000
+→ Plataforma email → KPIs → Loop de mejora continua
+```
+
+| Componente | Herramienta | Frecuencia | Acción / Alerta |
+|-----------|-------------|-----------|----------------|
+| Ingesta de datos | Apache Airflow | Mensual | Alerta si volumen difiere >5% vs mes anterior |
+| Almacenamiento | S3 / Azure Data Lake | Continuo | Versionado de master_df_flags.parquet |
+| Validación de esquemas | Great Expectations | Pre-proceso | Alerta si % anomalías >1% |
+| Serving del modelo | FastAPI + XGBoost (ONNX) | On-demand | Endpoint REST, latencia <100ms |
+| Monitorización AUC | MLflow / custom | Mensual | Trigger re-entrenamiento si AUC cae >3pp |
+| A/B Testing | 5% clientes aleatorios | Por campaña | Cuantificar lift personalización vs genérico |
+| Re-entrenamiento | Pipeline automatizado | Mensual | Con nuevos datos de contratación del mes anterior |
 
 ---
 
 ## 🛠️ Stack tecnológico
 
-| Categoría | Librerías |
-|-----------|-----------|
+| Categoría | Librerías / Herramientas |
+|-----------|--------------------------|
 | **Manipulación de datos** | `pandas`, `numpy` |
 | **Machine Learning** | `scikit-learn`, `xgboost` |
 | **Visualización** | `plotly`, `matplotlib` |
 | **Interpretabilidad** | `shap` |
+| **MLOps** | Apache Airflow, Great Expectations, FastAPI, MLflow |
+| **Serving** | XGBoost (ONNX), FastAPI REST endpoint |
+| **Almacenamiento** | S3 / Azure Data Lake |
 | **Entorno** | Python 3.13, Jupyter Notebook |
 
 ---
@@ -232,9 +289,9 @@ jupyter notebook notebooks/01-eda.ipynb
 | Fichero | Descripción | Generado en |
 |---------|-------------|------------|
 | `master_df_flags.parquet` | Dataset maestro con anomalías marcadas | `02-eda-deep-dive.ipynb` |
-| `customer_segments.csv` | Segmentación de ~441k clientes | `04-segmentación.ipynb` |
-| `recomendacion_10000_clientes.csv` | 9.836 clientes + producto recomendado (formato ESP) | `05-recomendación.ipynb` |
-| `recomendacion_10000_personalizado.csv` | 9.836 clientes + creatividad asignada | `06-personalización.ipynb` |
+| `customer_segments.csv` | Segmentación de ~441.752 clientes (k=7) | `04-segmentación.ipynb` |
+| `recomendacion_10000_clientes.csv` | 10.000 clientes + producto recomendado (formato ESP) | `05-recomendación.ipynb` |
+| `recomendacion_10000_personalizado.csv` | 10.000 clientes + creatividad asignada | `06-personalización.ipynb` |
 | `muestra_1000_clientes.csv` | Muestra de 1.000 clientes para prueba ESP | `05-recomendación.ipynb` |
 | `muestra_1000_personalizado.csv` | Muestra con creatividades para prueba ESP | `06-personalización.ipynb` |
 
@@ -250,7 +307,8 @@ jupyter notebook notebooks/01-eda.ipynb
 - **Erin** (Responsable Marketing Directo) — campaña de email
 - **Frank** (Director de IT) — infraestructura y ESP
 
-**Institución:** Nuclio Digital School — Máster en Data Science & AI  
+**Autoras:** Farnoosh Koohi · Gemma Calderon  
+**Institución:** Nuclio Digital School — Máster en Data Science & AI
 
 ---
 
